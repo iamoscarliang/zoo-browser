@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="androidx.lifecycle.LiveData" />
+
+        <import type="com.oscarliang.zoobrowser.model.Area" />
+
+        <import type="java.util.List" />
+
+        <import type="com.oscarliang.zoobrowser.util.Resource" />
+
+        <import type="com.oscarliang.zoobrowser.util.State" />
+
+        <variable
+            name="listener"
+            type="com.oscarliang.zoobrowser.ui.common.RetryListener" />
+
+        <variable
+            name="area"
+            type="LiveData&lt;Resource&lt;List&lt;Area>>>" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{() -> listener.retry()}"
+        app:refreshHide="@{area.state == State.LOADING}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/area_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager" />
+
+            <include
+                android:id="@+id/layout_error_state"
+                layout="@layout/layout_error_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:listener="@{listener}"
+                app:resource="@{area}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>

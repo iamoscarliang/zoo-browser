@@ -28,7 +28,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_news"
+                android:id="@+id/image_area"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/image_area_item_height"
                 android:layout_margin="@dimen/margin_10"
@@ -41,33 +41,30 @@
                 tool:src="@tools:sample/backgrounds/scenic" />
 
             <TextView
-                android:id="@+id/text_title"
-                android:layout_width="0dp"
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_10"
                 android:layout_marginEnd="@dimen/margin_10"
-                android:ellipsize="end"
-                android:maxLines="2"
                 android:text="@{area.name}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_15"
-                app:layout_constraintBottom_toTopOf="@id/text_publish_date"
-                app:layout_constraintEnd_toEndOf="@+id/image_news"
-                app:layout_constraintStart_toStartOf="@+id/image_news"
-                app:layout_constraintTop_toBottomOf="@+id/image_news"
-                tool:text="News title" />
+                app:layout_constraintBottom_toTopOf="@id/text_category"
+                app:layout_constraintStart_toStartOf="@+id/image_area"
+                app:layout_constraintTop_toBottomOf="@+id/image_area"
+                tool:text="Area name" />
 
             <TextView
-                android:id="@+id/text_publish_date"
+                android:id="@+id/text_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{area.category}"
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/text_title"
-                app:layout_constraintTop_toBottomOf="@+id/text_title"
-                tool:text="yyyy-MM-dd HH:mm" />
+                app:layout_constraintStart_toStartOf="@+id/text_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_name"
+                tool:text="Area category" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
