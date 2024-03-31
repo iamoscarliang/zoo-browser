@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="animal"
+            type="com.oscarliang.zoobrowser.model.Animal" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_animal_item_height"
+        android:layout_marginStart="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginEnd="@dimen/margin_10"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/margin_10"
+        app:cardElevation="@dimen/margin_5">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_animal"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_10"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{animal.imageUrl}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:shapeAppearanceOverlay="@style/RoundedRectangle"
+                tool:src="@tools:sample/backgrounds/scenic" />
+
+            <TextView
+                android:id="@+id/text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{animal.name}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_15"
+                android:layout_margin="@dimen/margin_10"
+                app:layout_constraintStart_toEndOf="@+id/image_animal"
+                app:layout_constraintTop_toTopOf="@+id/image_animal"
+                tool:text="Animal name" />
+
+            <TextView
+                android:id="@+id/text_feature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{animal.feature}"
+                android:textColor="@color/gray_700"
+                android:textSize="@dimen/text_size_12"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:layout_margin="@dimen/margin_10"
+                app:layout_constraintStart_toStartOf="@+id/text_name"
+                app:layout_constraintTop_toBottomOf="@+id/text_name"
+                tool:text="Animal feature more feature more feature more feature more feature" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
