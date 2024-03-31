@@ -11,8 +11,11 @@ data class Animal(
     val id: Int,
     @SerializedName("a_name_ch")
     val name: String,
+    @SerializedName("a_location")
+    val location: String,
     @SerializedName("a_feature")
     val feature: String,
     @SerializedName("a_pic01_url")
-    val imageUrl: String
+    val imageUrl: String,
+    val bookmark: Boolean = false
 )
