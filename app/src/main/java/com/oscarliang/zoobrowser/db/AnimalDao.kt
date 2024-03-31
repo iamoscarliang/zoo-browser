@@ -9,21 +9,21 @@ import androidx.room.Update
 import com.oscarliang.zoobrowser.model.Animal
 
 @Dao
-abstract class AnimalDao {
+interface AnimalDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAnimals(animals: List<Animal>)
+    suspend fun insertAnimals(animals: List<Animal>)
 
     @Query("SELECT * FROM animals WHERE location = :query")
-    abstract fun getAnimals(query: String): LiveData<List<Animal>>
+    fun getAnimals(query: String): LiveData<List<Animal>>
 
     @Query("SELECT * FROM animals WHERE id = :id")
-    abstract fun getAnimalById(id: Int): LiveData<Animal>
+    fun getAnimalById(id: Int): LiveData<Animal>
 
     @Query("SELECT * FROM animals WHERE bookmark = 1")
-    abstract fun getBookmarks(): LiveData<List<Animal>>
+    fun getBookmarks(): LiveData<List<Animal>>
 
     @Update
-    abstract fun updateAnimal(animal: Animal)
+    suspend fun updateAnimal(animal: Animal)
 
 }

@@ -8,12 +8,15 @@ import androidx.room.Query
 import com.oscarliang.zoobrowser.model.Area
 
 @Dao
-abstract class AreaDao {
+interface AreaDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract fun insertAreas(areas: List<Area>)
+    suspend fun insertAreas(areas: List<Area>)
 
     @Query("SELECT * FROM areas")
-    abstract fun getAreas(): LiveData<List<Area>>
+    fun getAreas(): List<Area>
+
+    @Query("SELECT * FROM areas")
+    fun getObservableAreas(): LiveData<List<Area>>
 
 }
