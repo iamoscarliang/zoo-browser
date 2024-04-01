@@ -4,6 +4,11 @@ import com.google.gson.annotations.SerializedName
 import com.oscarliang.zoobrowser.model.Area
 
 data class AreaResponse(
-    @SerializedName("results")
+    @field:SerializedName("result")
+    val result: Result
+)
+
+data class Result(
+    @field:SerializedName("results")
     val results: List<Area>
 )

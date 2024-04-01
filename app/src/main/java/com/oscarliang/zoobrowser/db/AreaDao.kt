@@ -14,9 +14,6 @@ interface AreaDao {
     suspend fun insertAreas(areas: List<Area>)
 
     @Query("SELECT * FROM areas")
-    fun getAreas(): List<Area>
-
-    @Query("SELECT * FROM areas")
-    fun getObservableAreas(): LiveData<List<Area>>
+    fun getAreas(): LiveData<List<Area>>
 
 }

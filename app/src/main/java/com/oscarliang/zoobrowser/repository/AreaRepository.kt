@@ -7,8 +7,11 @@ import com.oscarliang.zoobrowser.db.ZooDatabase
 import com.oscarliang.zoobrowser.model.Area
 import com.oscarliang.zoobrowser.util.NetworkBoundResource
 import com.oscarliang.zoobrowser.util.Resource
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AreaRepository(
+@Singleton
+class AreaRepository @Inject constructor(
     private val db: ZooDatabase,
     private val areaDao: AreaDao,
     private val zooService: ZooService
@@ -17,15 +20,15 @@ class AreaRepository(
     fun getAreas(): LiveData<Resource<List<Area>>> {
         return object : NetworkBoundResource<List<Area>>() {
             override fun query(): List<Area> {
-                return areaDao.getAreas()
+                return areaDao.getAreas().value ?: emptyList()
             }
 
             override fun queryObservable(): LiveData<List<Area>> {
-                return areaDao.getObservableAreas()
+                return areaDao.getAreas()
             }
 
             override suspend fun fetch(): List<Area> {
-                return zooService.getAreas().results
+                return zooService.getAreas().result.results
             }
 
             override suspend fun saveFetchResult(data: List<Area>) {

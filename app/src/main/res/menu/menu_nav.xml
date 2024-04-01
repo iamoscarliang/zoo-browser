@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/zooFragment"
         android:icon="@drawable/ic_zoo"
         android:title="@string/menu_zoo" />
     <item

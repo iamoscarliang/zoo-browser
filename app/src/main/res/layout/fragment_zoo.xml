@@ -19,7 +19,7 @@
             type="com.oscarliang.zoobrowser.ui.common.RetryListener" />
 
         <variable
-            name="area"
+            name="areas"
             type="LiveData&lt;Resource&lt;List&lt;Area>>>" />
     </data>
 
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:onRefreshListener="@{() -> listener.retry()}"
-        app:refreshHide="@{area.state == State.LOADING}">
+        app:refreshHide="@{areas.state == State.LOADING}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:listener="@{listener}"
-                app:resource="@{area}" />
+                app:resource="@{areas}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
