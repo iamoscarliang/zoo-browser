@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.oscarliang.zoobrowser.R
 import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentAreaBinding
@@ -54,7 +55,10 @@ class AreaFragment : Fragment(), Injectable {
         binding.lifecycleOwner = viewLifecycleOwner
         val rvAdapter = AnimalListAdapter(
             dataBindingComponent = dataBindingComponent,
-            itemClickListener = {}
+            itemClickListener = {},
+            bookmarkClickListener = {
+                viewModel.toggleBookmark(it)
+            }
         )
         binding.area = params.area
         binding.animals = viewModel.animals
@@ -65,6 +69,8 @@ class AreaFragment : Fragment(), Injectable {
         }
         binding.animalList.apply {
             adapter = rvAdapter
+            layoutManager = GridLayoutManager(this@AreaFragment.context,
+                resources.getInteger(R.integer.columns_count))
             itemAnimator?.changeDuration = 0
         }
         this.adapter = rvAdapter

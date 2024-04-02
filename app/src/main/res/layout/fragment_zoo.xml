@@ -37,8 +37,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/area_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="LinearLayoutManager" />
+                android:layout_height="match_parent" />
 
             <include
                 android:id="@+id/layout_error_state"

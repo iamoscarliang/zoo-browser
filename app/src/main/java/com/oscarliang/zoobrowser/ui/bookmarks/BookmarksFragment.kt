@@ -1,4 +1,4 @@
-package com.oscarliang.zoobrowser.ui.zoo
+package com.oscarliang.zoobrowser.ui.bookmarks
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,32 +13,31 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.oscarliang.zoobrowser.R
 import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
-import com.oscarliang.zoobrowser.databinding.FragmentZooBinding
+import com.oscarliang.zoobrowser.databinding.FragmentBookmarksBinding
 import com.oscarliang.zoobrowser.di.Injectable
-import com.oscarliang.zoobrowser.ui.common.AreaListAdapter
-import com.oscarliang.zoobrowser.ui.common.RetryListener
+import com.oscarliang.zoobrowser.ui.common.AnimalListAdapter
 import com.oscarliang.zoobrowser.util.autoCleared
 import javax.inject.Inject
 
-class ZooFragment : Fragment(), Injectable {
+class BookmarksFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    var binding by autoCleared<FragmentZooBinding>()
+    var binding by autoCleared<FragmentBookmarksBinding>()
     var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
-    private val viewModel: ZooViewModel by viewModels {
+    private val viewModel: BookmarksViewModel by viewModels {
         viewModelFactory
     }
-    private var adapter by autoCleared<AreaListAdapter>()
+    private var adapter by autoCleared<AnimalListAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dataBinding = DataBindingUtil.inflate<FragmentZooBinding>(
+        val dataBinding = DataBindingUtil.inflate<FragmentBookmarksBinding>(
             inflater,
-            R.layout.fragment_zoo,
+            R.layout.fragment_bookmarks,
             container,
             false
         )
@@ -47,31 +46,18 @@ class ZooFragment : Fragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState == null) {
-            viewModel.refresh()
-        }
-
+        binding.bookmarks = viewModel.bookmarks
         binding.lifecycleOwner = viewLifecycleOwner
-        val rvAdapter = AreaListAdapter(
+        val rvAdapter = AnimalListAdapter(
             dataBindingComponent = dataBindingComponent,
-            itemClickListener = {
-                findNavController().navigate(
-                    ZooFragmentDirections.actionZooFragmentToAreaFragment(
-                        it
-                    )
-                )
+            itemClickListener = {},
+            bookmarkClickListener = {
+                viewModel.toggleBookmark(it)
             }
         )
-        binding.areas = viewModel.areas
-        binding.listener = object : RetryListener {
-            override fun retry() {
-                viewModel.refresh()
-            }
-        }
-        binding.areaList.apply {
+        binding.repoList.apply {
             adapter = rvAdapter
-            layoutManager = GridLayoutManager(this@ZooFragment.context,
+            layoutManager = GridLayoutManager(this@BookmarksFragment.context,
                 resources.getInteger(R.integer.columns_count))
             itemAnimator?.changeDuration = 0
         }
@@ -80,8 +66,8 @@ class ZooFragment : Fragment(), Injectable {
     }
 
     private fun initRecyclerView() {
-        viewModel.areas.observe(viewLifecycleOwner) { areas ->
-            adapter.submitList(areas?.data)
+        viewModel.bookmarks.observe(viewLifecycleOwner) { repos ->
+            adapter.submitList(repos)
         }
     }
 

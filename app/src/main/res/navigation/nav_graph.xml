@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tool="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/zooFragment">
 
@@ -9,7 +9,7 @@
         android:id="@+id/zooFragment"
         android:name="com.oscarliang.zoobrowser.ui.zoo.ZooFragment"
         android:label="ZooFragment"
-        tools:layout="@layout/fragment_zoo">
+        tool:layout="@layout/fragment_zoo">
 
         <action
             android:id="@+id/action_zooFragment_to_areaFragment"
@@ -18,10 +18,16 @@
     </fragment>
 
     <fragment
+        android:id="@+id/bookmarksFragment"
+        android:name="com.oscarliang.zoobrowser.ui.bookmarks.BookmarksFragment"
+        android:label="BookmarksFragment"
+        tool:layout="@layout/fragment_bookmarks" />
+
+    <fragment
         android:id="@+id/areaFragment"
         android:name="com.oscarliang.zoobrowser.ui.area.AreaFragment"
         android:label="AreaFragment"
-        tools:layout="@layout/fragment_area">
+        tool:layout="@layout/fragment_area">
 
         <argument
             android:name="area"

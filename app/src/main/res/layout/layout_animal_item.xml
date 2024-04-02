@@ -53,19 +53,32 @@
                 app:layout_constraintTop_toTopOf="@+id/image_animal"
                 tool:text="Animal name" />
 
+            <ImageButton
+                android:id="@+id/btn_bookmark"
+                android:layout_width="@dimen/btn_bookmark_width"
+                android:layout_height="@dimen/btn_bookmark_width"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:background="@{animal.bookmark ? @drawable/ic_bookmark : @drawable/ic_bookmark_border}"
+                android:backgroundTint="@{animal.bookmark ? @color/gray_700 : @color/gray_500}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/image_animal"
+                tool:background="@drawable/ic_bookmark_border"
+                tool:backgroundTint="@color/gray_700" />
+
             <TextView
                 android:id="@+id/text_feature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_10"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:text="@{animal.feature}"
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/text_size_15"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:layout_margin="@dimen/margin_10"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_animal"
-                app:layout_constraintTop_toBottomOf="@+id/text_name"
+                app:layout_constraintTop_toBottomOf="@+id/btn_bookmark"
                 tool:text="Animal feature more feature more feature more feature more feature more feature" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

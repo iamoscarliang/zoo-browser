@@ -47,4 +47,12 @@ class AnimalRepository @Inject constructor(
         ).asLiveData()
     }
 
+    fun getBookmarks(): LiveData<List<Animal>> {
+        return animalDao.getBookmarks()
+    }
+
+    suspend fun updateAnimal(animal: Animal) {
+        animalDao.updateAnimal(animal)
+    }
+
 }

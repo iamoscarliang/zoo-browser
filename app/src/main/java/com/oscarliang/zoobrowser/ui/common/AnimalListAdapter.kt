@@ -11,7 +11,8 @@ import com.oscarliang.zoobrowser.model.Animal
 
 class AnimalListAdapter(
     private val dataBindingComponent: DataBindingComponent,
-    private val itemClickListener: ((Animal) -> Unit)?
+    private val itemClickListener: ((Animal) -> Unit)?,
+    private val bookmarkClickListener: ((Animal) -> Unit)?
 ) : DataBoundListAdapter<Animal, LayoutAnimalItemBinding>(
     object : DiffUtil.ItemCallback<Animal>() {
         override fun areItemsTheSame(oldItem: Animal, newItem: Animal): Boolean {
@@ -35,6 +36,11 @@ class AnimalListAdapter(
         binding.root.setOnClickListener {
             binding.animal?.let {
                 itemClickListener?.invoke(it)
+            }
+        }
+        binding.btnBookmark.setOnClickListener {
+            binding.animal?.let {
+                bookmarkClickListener?.invoke(it)
             }
         }
         return binding

@@ -3,6 +3,7 @@ package com.oscarliang.zoobrowser.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.oscarliang.zoobrowser.ui.area.AreaViewModel
+import com.oscarliang.zoobrowser.ui.bookmarks.BookmarksViewModel
 import com.oscarliang.zoobrowser.ui.zoo.ZooViewModel
 import com.oscarliang.zoobrowser.viewmodel.ViewModelFactory
 import dagger.Binds
@@ -21,6 +22,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AreaViewModel::class)
     abstract fun bindAreaViewModel(viewModel: AreaViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BookmarksViewModel::class)
+    abstract fun bindBookmarksViewModel(viewModel: BookmarksViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

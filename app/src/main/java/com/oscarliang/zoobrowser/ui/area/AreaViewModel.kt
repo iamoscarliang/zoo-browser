@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.oscarliang.zoobrowser.model.Animal
 import com.oscarliang.zoobrowser.repository.AnimalRepository
 import com.oscarliang.zoobrowser.util.AbsentLiveData
 import com.oscarliang.zoobrowser.util.Resource
 import com.oscarliang.zoobrowser.util.State
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AreaViewModel @Inject constructor(
@@ -42,6 +44,14 @@ class AreaViewModel @Inject constructor(
     fun retry() {
         _query.value?.let {
             _query.value = it
+        }
+    }
+
+    fun toggleBookmark(animal: Animal) {
+        val current = animal.bookmark
+        val updated = animal.copy(bookmark = !current)
+        viewModelScope.launch {
+            repository.updateAnimal(updated)
         }
     }
 
