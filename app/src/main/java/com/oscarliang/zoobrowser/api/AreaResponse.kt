@@ -6,9 +6,9 @@ import com.oscarliang.zoobrowser.model.Area
 data class AreaResponse(
     @field:SerializedName("result")
     val result: Result
-)
-
-data class Result(
-    @field:SerializedName("results")
-    val results: List<Area>
-)
+) {
+    data class Result(
+        @field:SerializedName("results")
+        val results: List<Area>
+    )
+}

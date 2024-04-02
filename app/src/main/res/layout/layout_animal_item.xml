@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{animal.name}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_15"
+                android:textSize="@dimen/text_size_18"
                 android:layout_margin="@dimen/margin_10"
                 app:layout_constraintStart_toEndOf="@+id/image_animal"
                 app:layout_constraintTop_toTopOf="@+id/image_animal"
@@ -55,17 +55,18 @@
 
             <TextView
                 android:id="@+id/text_feature"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{animal.feature}"
                 android:textColor="@color/gray_700"
-                android:textSize="@dimen/text_size_12"
+                android:textSize="@dimen/text_size_15"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:layout_margin="@dimen/margin_10"
-                app:layout_constraintStart_toStartOf="@+id/text_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/image_animal"
                 app:layout_constraintTop_toBottomOf="@+id/text_name"
-                tool:text="Animal feature more feature more feature more feature more feature" />
+                tool:text="Animal feature more feature more feature more feature more feature more feature" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

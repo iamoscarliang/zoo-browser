@@ -9,8 +9,6 @@
 
         <import type="java.util.List" />
 
-        <import type="com.oscarliang.zoobrowser.model.Area" />
-
         <import type="com.oscarliang.zoobrowser.model.Animal" />
 
         <import type="com.oscarliang.zoobrowser.util.Resource" />
@@ -19,7 +17,7 @@
 
         <variable
             name="area"
-            type="LiveData&lt;Area>" />
+            type="com.oscarliang.zoobrowser.model.Area" />
 
         <variable
             name="backListener"
@@ -48,9 +46,9 @@
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:collapsedTitleTextAppearance="@style/CollapsedToolBar"
+                app:collapsedTitleTextColor="@color/white"
+                app:expandedTitleTextColor="@color/white"
                 app:contentScrim="@color/gray_500"
-                app:expandedTitleTextAppearance="@style/ExpandedToolBar"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:maxLines="3"
                 app:title="@{area.name}">
@@ -121,12 +119,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_20"
-                    android:text="@{area.category}"
+                    android:text="@{area.memo}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_15"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_info"
-                    tool:text="Area category" />
+                    tool:text="Area memo" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/animal_list"

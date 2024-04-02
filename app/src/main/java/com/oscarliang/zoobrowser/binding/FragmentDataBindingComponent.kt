@@ -6,5 +6,5 @@ import com.oscarliang.zoobrowser.binding.FragmentBindingAdapters
 class FragmentDataBindingComponent : DataBindingComponent {
     private val adapter = FragmentBindingAdapters()
 
-    override fun getFragmentBindingAdapters() = adapter
+    fun getFragmentBindingAdapters() = adapter
 }

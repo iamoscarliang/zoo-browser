@@ -9,15 +9,4 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">8%</item>
     </style>
-    <style name="ExpandedToolBar" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="CollapsedToolBar" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">normal</item>
-    </style>
 </resources>

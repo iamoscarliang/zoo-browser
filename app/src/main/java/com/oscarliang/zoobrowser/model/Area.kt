@@ -1,9 +1,12 @@
 package com.oscarliang.zoobrowser.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "areas")
 data class Area(
     @PrimaryKey
@@ -21,4 +24,4 @@ data class Area(
     val imageUrl: String,
     @field:SerializedName("e_url")
     val url: String
-)
+) : Parcelable
