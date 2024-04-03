@@ -49,6 +49,9 @@ interface AnimalDao {
     fun getAnimalById(id: Int): LiveData<Animal>
 
     @Query("SELECT * FROM animals WHERE bookmark = 1")
+    suspend fun findBookmarks(): List<Animal>
+
+    @Query("SELECT * FROM animals WHERE bookmark = 1")
     fun getBookmarks(): LiveData<List<Animal>>
 
     @Update

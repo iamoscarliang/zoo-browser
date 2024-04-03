@@ -17,5 +17,5 @@ data class Animal(
     val feature: String,
     @SerializedName("a_pic01_url")
     val imageUrl: String,
-    val bookmark: Boolean = false
+    var bookmark: Boolean
 )

@@ -43,6 +43,13 @@ class AnimalRepository @Inject constructor(
             }
 
             override suspend fun saveFetchResult(data: List<Animal>) {
+                val bookmarks = animalDao.findBookmarks()
+                data.forEach { newData ->
+                    // We prevent overriding bookmark field
+                    newData.bookmark = bookmarks.any { currentData ->
+                        currentData.id == newData.id
+                    }
+                }
                 val animalIds = data.map { it.id }
                 val animalSearchResult = AnimalSearchResult(query, animalIds)
                 db.withTransaction {
