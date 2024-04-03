@@ -12,8 +12,6 @@ import com.oscarliang.zoobrowser.util.AbsentLiveData
 import com.oscarliang.zoobrowser.util.FetchNextSearchPageTask
 import com.oscarliang.zoobrowser.util.NetworkBoundResource
 import com.oscarliang.zoobrowser.util.Resource
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,16 +19,13 @@ import javax.inject.Singleton
 class AnimalRepository @Inject constructor(
     private val db: ZooDatabase,
     private val animalDao: AnimalDao,
-    private val zooService: ZooService,
-    private val ioDispatcher: CoroutineDispatcher
+    private val zooService: ZooService
 ) {
 
     fun search(query: String, limit: Int): LiveData<Resource<List<Animal>>> {
         return object : NetworkBoundResource<List<Animal>>() {
             override suspend fun query(): List<Animal> {
-                return withContext(ioDispatcher) {
-                    animalDao.findAnimals(query)
-                }
+                return animalDao.findAnimals(query)
             }
 
             override fun queryObservable(): LiveData<List<Animal>> {
@@ -44,19 +39,15 @@ class AnimalRepository @Inject constructor(
             }
 
             override suspend fun fetch(): List<Animal> {
-                return withContext(ioDispatcher) {
-                    zooService.searchAnimals(query, limit).result.results
-                }
+                return zooService.searchAnimals(query, limit).result.results
             }
 
             override suspend fun saveFetchResult(data: List<Animal>) {
                 val animalIds = data.map { it.id }
                 val animalSearchResult = AnimalSearchResult(query, animalIds)
-                withContext(ioDispatcher) {
-                    db.withTransaction {
-                        animalDao.insertAnimals(data)
-                        animalDao.insertAnimalSearchResults(animalSearchResult)
-                    }
+                db.withTransaction {
+                    animalDao.insertAnimals(data)
+                    animalDao.insertAnimalSearchResults(animalSearchResult)
                 }
             }
         }.asLiveData()
@@ -67,8 +58,7 @@ class AnimalRepository @Inject constructor(
             query = query,
             limit = limit,
             zooService = zooService,
-            db = db,
-            ioDispatcher = ioDispatcher
+            db = db
         ).asLiveData()
     }
 

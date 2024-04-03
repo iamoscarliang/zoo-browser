@@ -6,24 +6,19 @@ import com.oscarliang.zoobrowser.db.AreaDao
 import com.oscarliang.zoobrowser.model.Area
 import com.oscarliang.zoobrowser.util.NetworkBoundResource
 import com.oscarliang.zoobrowser.util.Resource
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AreaRepository @Inject constructor(
     private val areaDao: AreaDao,
-    private val zooService: ZooService,
-    private val ioDispatcher: CoroutineDispatcher
+    private val zooService: ZooService
 ) {
 
     fun getAreas(): LiveData<Resource<List<Area>>> {
         return object : NetworkBoundResource<List<Area>>() {
             override suspend fun query(): List<Area> {
-                return withContext(ioDispatcher) {
-                    areaDao.findAreas()
-                }
+                return areaDao.findAreas()
             }
 
             override fun queryObservable(): LiveData<List<Area>> {
@@ -31,15 +26,11 @@ class AreaRepository @Inject constructor(
             }
 
             override suspend fun fetch(): List<Area> {
-                return withContext(ioDispatcher) {
-                    zooService.getAreas().result.results
-                }
+                return zooService.getAreas().result.results
             }
 
             override suspend fun saveFetchResult(data: List<Area>) {
-                withContext(ioDispatcher) {
-                    areaDao.insertAreas(data)
-                }
+                areaDao.insertAreas(data)
             }
         }.asLiveData()
     }

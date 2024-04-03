@@ -21,10 +21,10 @@ interface AnimalDao {
     suspend fun insertAnimalSearchResults(result: AnimalSearchResult)
 
     @Query("SELECT * FROM animals WHERE location = :query")
-    fun findAnimals(query: String): List<Animal>
+    suspend fun findAnimals(query: String): List<Animal>
 
     @Query("SELECT * FROM animal_search_results WHERE `query` = :query")
-    fun findAnimalSearchResult(query: String): AnimalSearchResult?
+    suspend fun findAnimalSearchResult(query: String): AnimalSearchResult?
 
     @Query("SELECT * FROM animals WHERE location = :query")
     fun getAnimals(query: String): LiveData<List<Animal>>

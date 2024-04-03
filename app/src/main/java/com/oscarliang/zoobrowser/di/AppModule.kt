@@ -8,8 +8,6 @@ import com.oscarliang.zoobrowser.db.AreaDao
 import com.oscarliang.zoobrowser.db.ZooDatabase
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -46,12 +44,6 @@ class AppModule {
     @Provides
     fun provideAnimalDao(db: ZooDatabase): AnimalDao {
         return db.animalDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideDispatchers(): CoroutineDispatcher {
-        return Dispatchers.IO
     }
 
 }
