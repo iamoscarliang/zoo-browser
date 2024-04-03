@@ -1,5 +1,6 @@
 package com.oscarliang.zoobrowser.di
 
+import com.oscarliang.zoobrowser.ui.animal.AnimalFragment
 import com.oscarliang.zoobrowser.ui.area.AreaFragment
 import com.oscarliang.zoobrowser.ui.bookmarks.BookmarksFragment
 import com.oscarliang.zoobrowser.ui.zoo.ZooFragment
@@ -13,9 +14,12 @@ abstract class FragmentBuildersModule {
     abstract fun contributeZooFragment(): ZooFragment
 
     @ContributesAndroidInjector
+    abstract fun contributeBookmarksFragment(): BookmarksFragment
+
+    @ContributesAndroidInjector
     abstract fun contributeAreaFragment(): AreaFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeBookmarksFragment(): BookmarksFragment
+    abstract fun contributeAnimalFragment(): AnimalFragment
 
 }

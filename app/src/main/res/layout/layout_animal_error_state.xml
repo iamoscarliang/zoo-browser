@@ -14,7 +14,7 @@
 
         <variable
             name="listener"
-            type="com.oscarliang.zoobrowser.ui.common.RetryListener" />
+            type="com.oscarliang.zoobrowser.ui.common.ClickListener" />
 
         <variable
             name="resource"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10"
             android:backgroundTint="@color/gray_500"
-            android:onClick="@{() -> listener.retry()}"
+            android:onClick="@{() -> listener.onClick()}"
             android:text="@string/retry"
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_20"

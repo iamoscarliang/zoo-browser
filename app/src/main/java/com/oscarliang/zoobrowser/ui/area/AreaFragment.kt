@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -18,7 +20,7 @@ import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentAreaBinding
 import com.oscarliang.zoobrowser.di.Injectable
 import com.oscarliang.zoobrowser.ui.common.AnimalListAdapter
-import com.oscarliang.zoobrowser.ui.common.RetryListener
+import com.oscarliang.zoobrowser.ui.common.ClickListener
 import com.oscarliang.zoobrowser.util.autoCleared
 import javax.inject.Inject
 
@@ -54,28 +56,43 @@ class AreaFragment : Fragment(), Injectable {
         if (savedInstanceState == null) {
             viewModel.setQuery(params.area.name, 10)
         }
-        binding.lifecycleOwner = viewLifecycleOwner
+
         val rvAdapter = AnimalListAdapter(
             dataBindingComponent = dataBindingComponent,
-            itemClickListener = {},
+            itemClickListener = {
+                findNavController().navigate(
+                    AreaFragmentDirections.actionAreaFragmentToAnimalFragment(
+                        it.id
+                    )
+                )
+            },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
             }
         )
+        this.adapter = rvAdapter
+
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.area = params.area
         binding.animals = viewModel.animals
-        binding.retryListener = object : RetryListener {
-            override fun retry() {
+        binding.backListener = object : ClickListener {
+            override fun onClick() {
+                NavHostFragment.findNavController(this@AreaFragment).navigateUp()
+            }
+        }
+        binding.retryListener = object : ClickListener {
+            override fun onClick() {
                 viewModel.retry()
             }
         }
         binding.animalList.apply {
             adapter = rvAdapter
-            layoutManager = GridLayoutManager(this@AreaFragment.context,
-                resources.getInteger(R.integer.columns_count))
+            layoutManager = GridLayoutManager(
+                this@AreaFragment.context,
+                resources.getInteger(R.integer.columns_count)
+            )
             itemAnimator?.changeDuration = 0
         }
-        this.adapter = rvAdapter
         initRecyclerView()
     }
 

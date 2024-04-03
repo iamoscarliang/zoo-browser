@@ -16,7 +16,7 @@ import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentZooBinding
 import com.oscarliang.zoobrowser.di.Injectable
 import com.oscarliang.zoobrowser.ui.common.AreaListAdapter
-import com.oscarliang.zoobrowser.ui.common.RetryListener
+import com.oscarliang.zoobrowser.ui.common.ClickListener
 import com.oscarliang.zoobrowser.util.autoCleared
 import javax.inject.Inject
 
@@ -52,7 +52,6 @@ class ZooFragment : Fragment(), Injectable {
             viewModel.refresh()
         }
 
-        binding.lifecycleOwner = viewLifecycleOwner
         val rvAdapter = AreaListAdapter(
             dataBindingComponent = dataBindingComponent,
             itemClickListener = {
@@ -63,19 +62,23 @@ class ZooFragment : Fragment(), Injectable {
                 )
             }
         )
+        this.adapter = rvAdapter
+
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.areas = viewModel.areas
-        binding.listener = object : RetryListener {
-            override fun retry() {
+        binding.listener = object : ClickListener {
+            override fun onClick() {
                 viewModel.refresh()
             }
         }
         binding.areaList.apply {
             adapter = rvAdapter
-            layoutManager = GridLayoutManager(this@ZooFragment.context,
-                resources.getInteger(R.integer.columns_count))
+            layoutManager = GridLayoutManager(
+                this@ZooFragment.context,
+                resources.getInteger(R.integer.columns_count)
+            )
             itemAnimator?.changeDuration = 0
         }
-        this.adapter = rvAdapter
         initRecyclerView()
     }
 

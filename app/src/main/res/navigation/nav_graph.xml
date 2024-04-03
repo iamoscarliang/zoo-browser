@@ -21,7 +21,13 @@
         android:id="@+id/bookmarksFragment"
         android:name="com.oscarliang.zoobrowser.ui.bookmarks.BookmarksFragment"
         android:label="BookmarksFragment"
-        tool:layout="@layout/fragment_bookmarks" />
+        tool:layout="@layout/fragment_bookmarks">
+
+        <action
+            android:id="@+id/action_bookmarksFragment_to_animalFragment"
+            app:destination="@id/animalFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/areaFragment"
@@ -32,6 +38,22 @@
         <argument
             android:name="area"
             app:argType="com.oscarliang.zoobrowser.model.Area" />
+
+        <action
+            android:id="@+id/action_areaFragment_to_animalFragment"
+            app:destination="@id/animalFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/animalFragment"
+        android:name="com.oscarliang.zoobrowser.ui.animal.AnimalFragment"
+        android:label="AnimalFragment"
+        tool:layout="@layout/fragment_animal">
+
+        <argument
+            android:name="animalId"
+            app:argType="integer" />
 
     </fragment>
 

@@ -46,22 +46,32 @@ class BookmarksFragment : Fragment(), Injectable {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.bookmarks = viewModel.bookmarks
-        binding.lifecycleOwner = viewLifecycleOwner
+        super.onViewCreated(view, savedInstanceState)
         val rvAdapter = AnimalListAdapter(
             dataBindingComponent = dataBindingComponent,
-            itemClickListener = {},
+            itemClickListener = {
+                findNavController().navigate(
+                    BookmarksFragmentDirections.actionBookmarksFragmentToAnimalFragment(
+                        it.id
+                    )
+                )
+            },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
             }
         )
+        this.adapter = rvAdapter
+
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.bookmarks = viewModel.bookmarks
         binding.repoList.apply {
             adapter = rvAdapter
-            layoutManager = GridLayoutManager(this@BookmarksFragment.context,
-                resources.getInteger(R.integer.columns_count))
+            layoutManager = GridLayoutManager(
+                this@BookmarksFragment.context,
+                resources.getInteger(R.integer.columns_count)
+            )
             itemAnimator?.changeDuration = 0
         }
-        this.adapter = rvAdapter
         initRecyclerView()
     }
 
