@@ -2,6 +2,7 @@ package com.oscarliang.zoobrowser
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.oscarliang.zoobrowser.databinding.ActivityMainBinding
@@ -27,6 +28,10 @@ class MainActivity : AppCompatActivity(), Injectable, HasAndroidInjector {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNav?.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.toolbar.isVisible =
+                destination.id != R.id.areaFragment && destination.id != R.id.animalFragment
+        }
     }
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
