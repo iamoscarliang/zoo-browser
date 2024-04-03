@@ -41,6 +41,14 @@ class AreaViewModel @Inject constructor(
         _query.value = update
     }
 
+    fun loadNextPage() {
+        _query.value?.let {
+            if (it.query.isNotBlank()) {
+                nextPageHandler.queryNextPage(it.query, it.limit)
+            }
+        }
+    }
+
     fun retry() {
         _query.value?.let {
             _query.value = it

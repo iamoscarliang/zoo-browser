@@ -21,10 +21,16 @@ interface AnimalDao {
     suspend fun insertAnimalSearchResults(result: AnimalSearchResult)
 
     @Query("SELECT * FROM animals WHERE location = :query")
+    fun findAnimals(query: String): List<Animal>
+
+    @Query("SELECT * FROM animal_search_results WHERE `query` = :query")
+    fun findAnimalSearchResult(query: String): AnimalSearchResult?
+
+    @Query("SELECT * FROM animals WHERE location = :query")
     fun getAnimals(query: String): LiveData<List<Animal>>
 
     @Query("SELECT * FROM animal_search_results WHERE `query` = :query")
-    abstract fun getAnimalSearchResult(query: String): AnimalSearchResult?
+    fun getAnimalSearchResult(query: String): LiveData<AnimalSearchResult?>
 
     fun getOrdered(ids: List<Int>): LiveData<List<Animal>> {
         val order = SparseIntArray()

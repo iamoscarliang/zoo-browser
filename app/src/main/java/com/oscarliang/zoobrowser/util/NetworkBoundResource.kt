@@ -33,7 +33,7 @@ abstract class NetworkBoundResource<T> {
         }
     }
 
-    abstract fun query(): T
+    abstract suspend fun query(): T
     abstract fun queryObservable(): LiveData<T>
     abstract suspend fun fetch(): T
     abstract suspend fun saveFetchResult(data: T)

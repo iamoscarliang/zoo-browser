@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.oscarliang.zoobrowser.R
 import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentAreaBinding
@@ -78,8 +80,25 @@ class AreaFragment : Fragment(), Injectable {
     }
 
     private fun initRecyclerView() {
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+            // Check is scroll to bottom
+            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+                viewModel.loadNextPage()
+            }
+        }
         viewModel.animals.observe(viewLifecycleOwner) { animals ->
             adapter.submitList(animals?.data)
+        }
+        viewModel.loadMoreStatus.observe(viewLifecycleOwner) { loadingMore ->
+            if (loadingMore == null) {
+                binding.loadingMore = false
+            } else {
+                binding.loadingMore = loadingMore.isRunning
+                val error = loadingMore.errorMessageIfNotHandled
+                if (error != null) {
+                    Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

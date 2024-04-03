@@ -14,9 +14,12 @@ class FragmentBindingAdapters {
         fun bindImage(imageView: ImageView, url: String?) {
             // Convert http to https
             var formatUrl = url
-            if (url?.get(4) != 's') {
-                formatUrl = StringBuilder(url).apply { insert(4, 's') }.toString()
+            url?.let {
+                if (url.length > 4 && url[4] != 's') {
+                    formatUrl = StringBuilder(url).apply { insert(4, 's') }.toString()
+                }
             }
+
             Glide.with(imageView.context)
                 .load(formatUrl)
                 .placeholder(R.drawable.ic_zoo_gray)

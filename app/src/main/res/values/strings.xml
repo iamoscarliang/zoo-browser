@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ZooBrowser</string>
     <string name="menu_zoo">Zoo</string>
+    <string name="menu_animal">Animals</string>
     <string name="menu_bookmarks">Bookmarks</string>
     <string name="empty_search_result">No results found</string>
     <string name="no_more_result">No more result</string>
