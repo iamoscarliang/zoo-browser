@@ -40,15 +40,12 @@ android {
 }
 
 dependencies {
+    // AndroidX
     implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
 
     // SwipeRefreshLayout
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
@@ -81,4 +78,26 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Mock webserver test
+    implementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
+
+    // Kotlinx coroutines
+    def coroutines_version = "1.7.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+
+    // Unit test
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+
+    // Espresso test
+    def espresso_version = "3.5.1"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    // Architecture components test
+    def androidx_arch_test_version = "2.2.0"
+    testImplementation "androidx.arch.core:core-testing:$androidx_arch_test_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$androidx_arch_test_version"
 }
