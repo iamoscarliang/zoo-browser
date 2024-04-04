@@ -21,6 +21,10 @@ class ZooViewModel @Inject constructor(
         repository.getAreas()
     }
 
+    init {
+        refresh()
+    }
+
     fun refresh() {
         _loadTrigger.value = Unit
     }

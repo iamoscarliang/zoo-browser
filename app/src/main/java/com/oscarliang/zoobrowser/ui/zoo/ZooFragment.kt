@@ -48,9 +48,6 @@ class ZooFragment : Fragment(), Injectable {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState == null) {
-            viewModel.refresh()
-        }
 
         val rvAdapter = AreaListAdapter(
             dataBindingComponent = dataBindingComponent,
