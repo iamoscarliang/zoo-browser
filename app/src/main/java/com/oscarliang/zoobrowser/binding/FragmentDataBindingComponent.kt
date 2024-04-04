@@ -1,10 +1,11 @@
 package com.oscarliang.zoobrowser.binding
 
 import androidx.databinding.DataBindingComponent
+import androidx.fragment.app.Fragment
 import com.oscarliang.zoobrowser.binding.FragmentBindingAdapters
 
-class FragmentDataBindingComponent : DataBindingComponent {
-    private val adapter = FragmentBindingAdapters()
+class FragmentDataBindingComponent(fragment: Fragment) : DataBindingComponent {
+    private val adapter = FragmentBindingAdapters(fragment)
 
-    fun getFragmentBindingAdapters() = adapter
+    override fun getFragmentBindingAdapters() = adapter
 }

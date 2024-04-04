@@ -27,7 +27,7 @@ class AnimalFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentAnimalBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
     private val viewModel: AnimalViewModel by viewModels() {
         viewModelFactory
@@ -37,7 +37,7 @@ class AnimalFragment : Fragment(), Injectable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dataBinding = DataBindingUtil.inflate<FragmentAnimalBinding>(
             inflater,
             R.layout.fragment_animal,

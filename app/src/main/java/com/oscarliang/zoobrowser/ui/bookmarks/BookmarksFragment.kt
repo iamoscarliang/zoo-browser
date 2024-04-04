@@ -25,7 +25,7 @@ class BookmarksFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentBookmarksBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
     private val viewModel: BookmarksViewModel by viewModels {
         viewModelFactory
     }
@@ -34,7 +34,7 @@ class BookmarksFragment : Fragment(), Injectable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dataBinding = DataBindingUtil.inflate<FragmentBookmarksBinding>(
             inflater,
             R.layout.fragment_bookmarks,

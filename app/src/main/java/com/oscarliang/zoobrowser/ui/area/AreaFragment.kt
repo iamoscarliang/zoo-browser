@@ -30,7 +30,7 @@ class AreaFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentAreaBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
     private val viewModel: AreaViewModel by viewModels {
         viewModelFactory
     }
@@ -40,12 +40,13 @@ class AreaFragment : Fragment(), Injectable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dataBinding = DataBindingUtil.inflate<FragmentAreaBinding>(
             inflater,
             R.layout.fragment_area,
             container,
-            false
+            false,
+            dataBindingComponent
         )
         binding = dataBinding
         return dataBinding.root

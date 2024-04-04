@@ -26,7 +26,7 @@ class ZooFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentZooBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent()
+    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
     private val viewModel: ZooViewModel by viewModels {
         viewModelFactory
     }
@@ -35,7 +35,7 @@ class ZooFragment : Fragment(), Injectable {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val dataBinding = DataBindingUtil.inflate<FragmentZooBinding>(
             inflater,
             R.layout.fragment_zoo,
