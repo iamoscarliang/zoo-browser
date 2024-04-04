@@ -21,6 +21,7 @@ import com.oscarliang.zoobrowser.databinding.FragmentAreaBinding
 import com.oscarliang.zoobrowser.di.Injectable
 import com.oscarliang.zoobrowser.ui.common.AnimalListAdapter
 import com.oscarliang.zoobrowser.ui.common.ClickListener
+import com.oscarliang.zoobrowser.ui.common.LinkListener
 import com.oscarliang.zoobrowser.util.autoCleared
 import javax.inject.Inject
 
@@ -62,9 +63,7 @@ class AreaFragment : Fragment(), Injectable {
             dataBindingComponent = dataBindingComponent,
             itemClickListener = {
                 findNavController().navigate(
-                    AreaFragmentDirections.actionAreaFragmentToAnimalFragment(
-                        it.id
-                    )
+                    AreaFragmentDirections.actionAreaFragmentToAnimalFragment(it.id)
                 )
             },
             bookmarkClickListener = {
@@ -84,6 +83,13 @@ class AreaFragment : Fragment(), Injectable {
         binding.retryListener = object : ClickListener {
             override fun onClick() {
                 viewModel.retry()
+            }
+        }
+        binding.linkListener = object : LinkListener {
+            override fun onOpenLink(url: String) {
+                findNavController().navigate(
+                    AreaFragmentDirections.actionToBrowserFragment(url)
+                )
             }
         }
         binding.animalList.apply {

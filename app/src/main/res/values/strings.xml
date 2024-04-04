@@ -8,4 +8,5 @@
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown error</string>
     <string name="no_bookmarks">No bookmarks</string>
+    <string name="open_in_browser">Open in browser</string>
 </resources>

@@ -69,4 +69,24 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/browserFragment"
+        android:name="com.oscarliang.zoobrowser.ui.browser.BrowserFragment"
+        android:label="BrowserFragment"
+        tool:layout="@layout/fragment_browser">
+
+        <argument
+            android:name="url"
+            app:argType="string" />
+
+    </fragment>
+
+    <action
+        android:id="@+id/action_to_browserFragment"
+        app:destination="@id/browserFragment"
+        app:enterAnim="@anim/slide_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out" />
+
 </navigation>
