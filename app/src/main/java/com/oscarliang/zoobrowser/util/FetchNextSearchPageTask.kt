@@ -15,39 +15,39 @@ class FetchNextSearchPageTask(
 ) {
 
     fun asLiveData() = liveData {
-        val result = db.animalDao().findAnimalSearchResult(query)
-        if (result == null) {
+        val current = db.animalDao().findAnimalSearchResult(query)
+        if (current == null) {
             emit(null)
             return@liveData
         }
-        val current = result.animalIds.size
-        if (current == 0 || current % limit != 0) {
+        val currentCount = current.animalIds.size
+        if (currentCount >= current.count) {
             emit(Resource.success(false))
             return@liveData
         }
 
         try {
-            val fetchData = zooService.searchAnimals(
+            val response = zooService.searchAnimals(
                 query = query,
                 limit = limit,
-                offset = current
-            ).result.results
-
-            if (fetchData.isEmpty()) {
-                emit(Resource.success(false))
-                return@liveData
-            }
+                offset = currentCount
+            )
+            val fetchedData = response.result.results
 
             // We merge all new search result into current result list
             val ids = arrayListOf<Int>()
-            ids.addAll(result.animalIds)
-            ids.addAll(fetchData.map { it.id })
-            val merged = AnimalSearchResult(query, ids)
+            ids.addAll(current.animalIds)
+            ids.addAll(fetchedData.map { it.id })
+            val merged = AnimalSearchResult(
+                query = query,
+                count = response.result.count,
+                animalIds = ids
+            )
             db.withTransaction {
-                db.animalDao().insertAnimals(fetchData)
+                db.animalDao().insertAnimals(fetchedData)
                 db.animalDao().insertAnimalSearchResults(merged)
             }
-            emit(Resource.success(fetchData.size == limit))
+            emit(Resource.success(true))
         } catch (e: IOException) {
             emit(Resource.error(e.message!!, true))
         }

@@ -2,6 +2,7 @@
 <resources>
     <dimen name="layout_area_item_height">250dp</dimen>
     <dimen name="layout_animal_item_height">150dp</dimen>
+    <dimen name="layout_loading_state_height">70dp</dimen>
     <dimen name="image_area_item_height">160dp</dimen>
     <dimen name="image_area_height">300dp</dimen>
     <dimen name="image_animal_height">350dp</dimen>

@@ -29,7 +29,7 @@ class AreaViewModel @Inject constructor(
     }
 
     private val nextPageHandler = NextPageHandler(repository)
-    val loadMoreStatus: LiveData<LoadMoreState>
+    val loadMoreState: LiveData<LoadMoreState>
         get() = nextPageHandler.loadMoreState
 
     fun setQuery(query: String, limit: Int) {
@@ -76,7 +76,11 @@ class AreaViewModel @Inject constructor(
         }
     }
 
-    class LoadMoreState(val isRunning: Boolean, val errorMessage: String?) {
+    class LoadMoreState(
+        val isRunning: Boolean,
+        val hasMore: Boolean,
+        val errorMessage: String?
+    ) {
         private var handledError = false
 
         val errorMessageIfNotHandled: String?
@@ -96,9 +100,7 @@ class AreaViewModel @Inject constructor(
         val loadMoreState = MutableLiveData<LoadMoreState>()
         private var nextPageLiveData: LiveData<Resource<Boolean>?>? = null
         private var query: String? = null
-        private var _hasMore: Boolean = false
-        val hasMore
-            get() = _hasMore
+        private var hasMore: Boolean = false
 
         init {
             reset()
@@ -116,6 +118,7 @@ class AreaViewModel @Inject constructor(
             nextPageLiveData = repository.searchNextPage(query, limit)
             loadMoreState.value = LoadMoreState(
                 isRunning = true,
+                hasMore = true,
                 errorMessage = null
             )
             nextPageLiveData?.observeForever(this)
@@ -127,22 +130,24 @@ class AreaViewModel @Inject constructor(
             } else {
                 when (value.state) {
                     State.SUCCESS -> {
-                        _hasMore = value.data == true
+                        hasMore = value.data == true
                         unregister()
                         loadMoreState.setValue(
                             LoadMoreState(
                                 isRunning = false,
+                                hasMore = hasMore,
                                 errorMessage = null
                             )
                         )
                     }
 
                     State.ERROR -> {
-                        _hasMore = true
+                        hasMore = true
                         unregister()
                         loadMoreState.setValue(
                             LoadMoreState(
                                 isRunning = false,
+                                hasMore = hasMore,
                                 errorMessage = value.message
                             )
                         )
@@ -158,16 +163,17 @@ class AreaViewModel @Inject constructor(
         private fun unregister() {
             nextPageLiveData?.removeObserver(this)
             nextPageLiveData = null
-            if (_hasMore) {
+            if (hasMore) {
                 query = null
             }
         }
 
         fun reset() {
             unregister()
-            _hasMore = true
+            hasMore = true
             loadMoreState.value = LoadMoreState(
                 isRunning = false,
+                hasMore = true,
                 errorMessage = null
             )
         }

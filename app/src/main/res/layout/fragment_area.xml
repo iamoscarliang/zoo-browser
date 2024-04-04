@@ -28,7 +28,11 @@
             type="com.oscarliang.zoobrowser.ui.common.ClickListener" />
 
         <variable
-            name="loadingMore"
+            name="isRunning"
+            type="boolean" />
+
+        <variable
+            name="hasMore"
             type="boolean" />
 
         <variable
@@ -143,16 +147,16 @@
                     android:id="@+id/layout_loading_state"
                     layout="@layout/layout_loading_state"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/layout_loading_state_height"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:loading="@{loadingMore}"
-                    app:resource="@{animals}" />
+                    app:isRunning="@{isRunning}"
+                    app:hasMore="@{hasMore}" />
 
                 <include
                     android:id="@+id/layout_error_state"
-                    layout="@layout/layout_animal_error_state"
+                    layout="@layout/layout_error_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_20"
@@ -160,6 +164,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_memo"
+                    app:showHide="@{animals.data.size() == 0}"
                     app:listener="@{retryListener}"
                     app:resource="@{animals}" />
 

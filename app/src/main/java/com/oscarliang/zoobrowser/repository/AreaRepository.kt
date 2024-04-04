@@ -1,6 +1,7 @@
 package com.oscarliang.zoobrowser.repository
 
 import androidx.lifecycle.LiveData
+import com.oscarliang.zoobrowser.api.AreaResponse
 import com.oscarliang.zoobrowser.api.ZooService
 import com.oscarliang.zoobrowser.db.AreaDao
 import com.oscarliang.zoobrowser.model.Area
@@ -16,7 +17,7 @@ class AreaRepository @Inject constructor(
 ) {
 
     fun getAreas(): LiveData<Resource<List<Area>>> {
-        return object : NetworkBoundResource<List<Area>>() {
+        return object : NetworkBoundResource<List<Area>, AreaResponse>() {
             override suspend fun query(): List<Area> {
                 return areaDao.findAreas()
             }
@@ -25,12 +26,12 @@ class AreaRepository @Inject constructor(
                 return areaDao.getAreas()
             }
 
-            override suspend fun fetch(): List<Area> {
-                return zooService.getAreas().result.results
+            override suspend fun fetch(): AreaResponse {
+                return zooService.getAreas()
             }
 
-            override suspend fun saveFetchResult(data: List<Area>) {
-                areaDao.insertAreas(data)
+            override suspend fun saveFetchResult(data: AreaResponse) {
+                areaDao.insertAreas(data.result.results)
             }
         }.asLiveData()
     }

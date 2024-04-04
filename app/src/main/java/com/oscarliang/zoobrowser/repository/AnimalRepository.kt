@@ -3,6 +3,7 @@ package com.oscarliang.zoobrowser.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.switchMap
 import androidx.room.withTransaction
+import com.oscarliang.zoobrowser.api.AnimalResponse
 import com.oscarliang.zoobrowser.api.ZooService
 import com.oscarliang.zoobrowser.db.AnimalDao
 import com.oscarliang.zoobrowser.db.ZooDatabase
@@ -23,7 +24,7 @@ class AnimalRepository @Inject constructor(
 ) {
 
     fun search(query: String, limit: Int): LiveData<Resource<List<Animal>>> {
-        return object : NetworkBoundResource<List<Animal>>() {
+        return object : NetworkBoundResource<List<Animal>, AnimalResponse>() {
             override suspend fun query(): List<Animal> {
                 return animalDao.findAnimals(query)
             }
@@ -38,22 +39,27 @@ class AnimalRepository @Inject constructor(
                 }
             }
 
-            override suspend fun fetch(): List<Animal> {
-                return zooService.searchAnimals(query, limit).result.results
+            override suspend fun fetch(): AnimalResponse {
+                return zooService.searchAnimals(query, limit)
             }
 
-            override suspend fun saveFetchResult(data: List<Animal>) {
+            override suspend fun saveFetchResult(data: AnimalResponse) {
+                val animals = data.result.results
                 val bookmarks = animalDao.findBookmarks()
-                data.forEach { newData ->
+                animals.forEach { newData ->
                     // We prevent overriding bookmark field
                     newData.bookmark = bookmarks.any { currentData ->
                         currentData.id == newData.id
                     }
                 }
-                val animalIds = data.map { it.id }
-                val animalSearchResult = AnimalSearchResult(query, animalIds)
+                val animalIds = animals.map { it.id }
+                val animalSearchResult = AnimalSearchResult(
+                    query = query,
+                    count = data.result.count,
+                    animalIds = animalIds
+                )
                 db.withTransaction {
-                    animalDao.insertAnimals(data)
+                    animalDao.insertAnimals(animals)
                     animalDao.insertAnimalSearchResults(animalSearchResult)
                 }
             }

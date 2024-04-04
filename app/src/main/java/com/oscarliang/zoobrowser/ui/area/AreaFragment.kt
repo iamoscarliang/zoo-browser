@@ -98,21 +98,23 @@ class AreaFragment : Fragment(), Injectable {
     }
 
     private fun initRecyclerView() {
-        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+        binding.nestedScrollView.setOnScrollChangeListener { view: NestedScrollView, _: Int, scrollY: Int, _: Int, _: Int ->
             // Check is scroll to bottom
-            if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight) {
+            if (scrollY == view.getChildAt(0).measuredHeight - view.measuredHeight) {
                 viewModel.loadNextPage()
             }
         }
         viewModel.animals.observe(viewLifecycleOwner) { animals ->
             adapter.submitList(animals?.data)
         }
-        viewModel.loadMoreStatus.observe(viewLifecycleOwner) { loadingMore ->
-            if (loadingMore == null) {
-                binding.loadingMore = false
+        viewModel.loadMoreState.observe(viewLifecycleOwner) { state ->
+            if (state == null) {
+                binding.isRunning = false
+                binding.hasMore = false
             } else {
-                binding.loadingMore = loadingMore.isRunning
-                val error = loadingMore.errorMessageIfNotHandled
+                binding.isRunning = state.isRunning
+                binding.hasMore = state.hasMore
+                val error = state.errorMessageIfNotHandled
                 if (error != null) {
                     Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
                 }

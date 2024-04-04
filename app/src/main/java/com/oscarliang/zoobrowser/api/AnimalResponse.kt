@@ -9,6 +9,8 @@ data class AnimalResponse(
     val result: Result
 ) {
     data class Result(
+        @field:SerializedName("count")
+        val count: Int,
         @field:SerializedName("results")
         val results: List<Animal>
     )

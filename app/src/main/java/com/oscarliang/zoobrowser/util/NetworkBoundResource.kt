@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 
-abstract class NetworkBoundResource<T> {
+abstract class NetworkBoundResource<ResultType, RequestType> {
 
-    fun asLiveData() = liveData<Resource<T>> {
+    fun asLiveData() = liveData<Resource<ResultType>> {
         emit(Resource.loading(null))
 
         if (shouldFetch(query())) {
@@ -14,10 +14,10 @@ abstract class NetworkBoundResource<T> {
 
             try {
                 val fetchedData = fetch()
-                // Stop the previous emission to avoid dispatching the saveFetchResult as `Resource.loading`
+                // Stop the previous emission to avoid dispatching the saveFetchResult as loading state
                 disposable.dispose()
                 saveFetchResult(fetchedData)
-                // Re-establish the emission as `Resource.success`
+                // Re-establish the emission as success state
                 emitSource(queryObservable().map { Resource.success(it) })
             } catch (e: Exception) {
                 onFetchFailed(e)
@@ -33,10 +33,10 @@ abstract class NetworkBoundResource<T> {
         }
     }
 
-    abstract suspend fun query(): T
-    abstract fun queryObservable(): LiveData<T>
-    abstract suspend fun fetch(): T
-    abstract suspend fun saveFetchResult(data: T)
+    abstract suspend fun query(): ResultType
+    abstract fun queryObservable(): LiveData<ResultType>
+    abstract suspend fun fetch(): RequestType
+    abstract suspend fun saveFetchResult(data: RequestType)
     open fun onFetchFailed(exception: Exception) = Unit
-    open fun shouldFetch(data: T) = true
+    open fun shouldFetch(data: ResultType) = true
 }

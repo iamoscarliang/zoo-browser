@@ -10,5 +10,6 @@ import com.oscarliang.zoobrowser.db.ZooTypeConverters
 data class AnimalSearchResult(
     @PrimaryKey
     val query: String,
+    val count: Int,
     val animalIds: List<Int>
 )
