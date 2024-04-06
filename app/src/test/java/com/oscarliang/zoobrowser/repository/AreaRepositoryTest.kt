@@ -19,11 +19,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoInteractions
-import org.mockito.Mockito.`when`
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
+import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(JUnit4::class)
@@ -52,11 +52,11 @@ class AreaRepositoryTest {
 
     @Test
     fun testLoadFromDb() = runTest {
-        `when`(rateLimiter.shouldFetch(any())).thenReturn(false)
+        whenever(rateLimiter.shouldFetch(any())).thenReturn(false)
         val dbData = MutableLiveData<List<Area>>()
-        `when`(dao.getAreas()).thenReturn(dbData)
+        whenever(dao.getAreas()).thenReturn(dbData)
         val areas = TestUtil.createAreas(1, "foo", "bar")
-        `when`(dao.findAreas()).thenReturn(areas)
+        whenever(dao.findAreas()).thenReturn(areas)
 
         val observer = mock<Observer<Resource<List<Area>>>>()
         repository.getAreas().observeForever(observer)
@@ -70,13 +70,13 @@ class AreaRepositoryTest {
 
     @Test
     fun testLoadFromNetwork() = runTest {
-        `when`(rateLimiter.shouldFetch(any())).thenReturn(true)
+        whenever(rateLimiter.shouldFetch(any())).thenReturn(true)
         val dbData = MutableLiveData<List<Area>>()
-        `when`(dao.getAreas()).thenReturn(dbData)
+        whenever(dao.getAreas()).thenReturn(dbData)
         val areas = TestUtil.createAreas(1, "foo", "bar")
-        `when`(dao.findAreas()).thenReturn(areas)
+        whenever(dao.findAreas()).thenReturn(areas)
         val response = AreaResponse(AreaResponse.Result(areas))
-        `when`(service.getAreas()).thenReturn(response)
+        whenever(service.getAreas()).thenReturn(response)
 
         val observer = mock<Observer<Resource<List<Area>>>>()
         repository.getAreas().observeForever(observer)
@@ -91,12 +91,12 @@ class AreaRepositoryTest {
 
     @Test
     fun testLoadFromNetworkError() = runTest {
-        `when`(rateLimiter.shouldFetch(any())).thenReturn(true)
+        whenever(rateLimiter.shouldFetch(any())).thenReturn(true)
         val dbData = MutableLiveData<List<Area>>()
-        `when`(dao.getAreas()).thenReturn(dbData)
+        whenever(dao.getAreas()).thenReturn(dbData)
         val areas = TestUtil.createAreas(1, "foo", "bar")
-        `when`(dao.findAreas()).thenReturn(areas)
-        `when`(service.getAreas()).thenAnswer { throw Exception("idk") }
+        whenever(dao.findAreas()).thenReturn(areas)
+        whenever(service.getAreas()).thenAnswer { throw Exception("idk") }
 
         val observer = mock<Observer<Resource<List<Area>>>>()
         repository.getAreas().observeForever(observer)
