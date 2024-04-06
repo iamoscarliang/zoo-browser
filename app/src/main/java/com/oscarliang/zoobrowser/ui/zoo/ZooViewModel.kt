@@ -13,7 +13,7 @@ class ZooViewModel @Inject constructor(
     private val repository: AreaRepository
 ) : ViewModel() {
 
-    private val _loadTrigger = MutableLiveData(Unit)
+    private val _loadTrigger = MutableLiveData<Unit>()
     val loadTrigger: LiveData<Unit>
         get() = _loadTrigger
 
@@ -21,12 +21,16 @@ class ZooViewModel @Inject constructor(
         repository.getAreas()
     }
 
-    init {
-        refresh()
+    fun load() {
+        if (_loadTrigger.value == null) {
+            _loadTrigger.value = Unit
+        }
     }
 
     fun refresh() {
-        _loadTrigger.value = Unit
+        _loadTrigger.value?.let {
+            _loadTrigger.value = it
+        }
     }
 
 }

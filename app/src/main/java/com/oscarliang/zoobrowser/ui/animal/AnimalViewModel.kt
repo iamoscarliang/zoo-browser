@@ -15,7 +15,7 @@ class AnimalViewModel @Inject constructor(
     private val repository: AnimalRepository
 ) : ViewModel() {
 
-    private val _id: MutableLiveData<Int?> = MutableLiveData()
+    private val _id = MutableLiveData<Int?>()
     val id: LiveData<Int?>
         get() = _id
 
