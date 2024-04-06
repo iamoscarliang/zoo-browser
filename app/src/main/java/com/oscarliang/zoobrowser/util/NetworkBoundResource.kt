@@ -17,15 +17,12 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                 // Stop the previous emission to avoid dispatching the saveFetchResult as loading state
                 disposable.dispose()
                 saveFetchResult(fetchedData)
-                // Re-establish the emission as success state
+                // Re-attach the emission as success state
                 emitSource(queryObservable().map { Resource.success(it) })
             } catch (e: Exception) {
                 onFetchFailed(e)
                 emitSource(queryObservable().map {
-                    Resource.error(
-                        e.message ?: "Unknown error",
-                        it
-                    )
+                    Resource.error(e.message ?: "Unknown error", it)
                 })
             }
         } else {

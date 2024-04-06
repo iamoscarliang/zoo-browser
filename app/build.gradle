@@ -37,6 +37,10 @@ android {
     buildFeatures {
         dataBinding true
     }
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
+    }
 }
 
 dependencies {
@@ -95,6 +99,16 @@ dependencies {
     // Espresso test
     def espresso_version = "3.5.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    // Mockito test
+    def mockito_version = "5.7.0"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+
+    // Mockito-kotlin test
+    def mockitoKotlin_version = "4.1.0"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlin_version"
+    androidTestImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlin_version"
 
     // Architecture components test
     def androidx_arch_test_version = "2.2.0"

@@ -26,9 +26,6 @@ interface AnimalDao {
     @Query("SELECT * FROM animal_search_results WHERE `query` = :query")
     suspend fun findAnimalSearchResult(query: String): AnimalSearchResult?
 
-    @Query("SELECT * FROM animals WHERE location = :query")
-    fun getAnimals(query: String): LiveData<List<Animal>>
-
     @Query("SELECT * FROM animal_search_results WHERE `query` = :query")
     fun getAnimalSearchResult(query: String): LiveData<AnimalSearchResult?>
 

@@ -1,17 +1,15 @@
 package com.oscarliang.zoobrowser.util
 
 import androidx.lifecycle.liveData
-import androidx.room.withTransaction
 import com.oscarliang.zoobrowser.api.ZooService
 import com.oscarliang.zoobrowser.db.ZooDatabase
 import com.oscarliang.zoobrowser.model.AnimalSearchResult
-import java.io.IOException
 
 class FetchNextSearchPageTask(
     private val query: String,
     private val limit: Int,
-    private val zooService: ZooService,
-    private val db: ZooDatabase
+    private val db: ZooDatabase,
+    private val zooService: ZooService
 ) {
 
     fun asLiveData() = liveData {
@@ -43,13 +41,11 @@ class FetchNextSearchPageTask(
                 count = response.result.count,
                 animalIds = ids
             )
-            db.withTransaction {
-                db.animalDao().insertAnimals(fetchedData)
-                db.animalDao().insertAnimalSearchResults(merged)
-            }
+            db.animalDao().insertAnimals(fetchedData)
+            db.animalDao().insertAnimalSearchResults(merged)
             emit(Resource.success(true))
-        } catch (e: IOException) {
-            emit(Resource.error(e.message!!, true))
+        } catch (e: Exception) {
+            emit(Resource.error(e.message ?: "Unknown error", true))
         }
     }
 

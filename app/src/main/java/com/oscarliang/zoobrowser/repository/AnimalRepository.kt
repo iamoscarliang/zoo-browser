@@ -2,7 +2,6 @@ package com.oscarliang.zoobrowser.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.switchMap
-import androidx.room.withTransaction
 import com.oscarliang.zoobrowser.api.AnimalResponse
 import com.oscarliang.zoobrowser.api.ZooService
 import com.oscarliang.zoobrowser.db.AnimalDao
@@ -12,15 +11,19 @@ import com.oscarliang.zoobrowser.model.AnimalSearchResult
 import com.oscarliang.zoobrowser.util.AbsentLiveData
 import com.oscarliang.zoobrowser.util.FetchNextSearchPageTask
 import com.oscarliang.zoobrowser.util.NetworkBoundResource
+import com.oscarliang.zoobrowser.util.RateLimiter
 import com.oscarliang.zoobrowser.util.Resource
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private const val KEY = "animal"
 
 @Singleton
 class AnimalRepository @Inject constructor(
     private val db: ZooDatabase,
     private val animalDao: AnimalDao,
-    private val zooService: ZooService
+    private val service: ZooService,
+    private val rateLimiter: RateLimiter<String>
 ) {
 
     fun search(query: String, limit: Int): LiveData<Resource<List<Animal>>> {
@@ -40,7 +43,7 @@ class AnimalRepository @Inject constructor(
             }
 
             override suspend fun fetch(): AnimalResponse {
-                return zooService.searchAnimals(query, limit)
+                return service.searchAnimals(query, limit)
             }
 
             override suspend fun saveFetchResult(data: AnimalResponse) {
@@ -58,10 +61,16 @@ class AnimalRepository @Inject constructor(
                     count = data.result.count,
                     animalIds = animalIds
                 )
-                db.withTransaction {
-                    animalDao.insertAnimals(animals)
-                    animalDao.insertAnimalSearchResults(animalSearchResult)
-                }
+                animalDao.insertAnimals(animals)
+                animalDao.insertAnimalSearchResults(animalSearchResult)
+            }
+
+            override fun shouldFetch(data: List<Animal>): Boolean {
+                return rateLimiter.shouldFetch(KEY)
+            }
+
+            override fun onFetchFailed(exception: Exception) {
+                rateLimiter.reset(KEY)
             }
         }.asLiveData()
     }
@@ -70,8 +79,8 @@ class AnimalRepository @Inject constructor(
         return FetchNextSearchPageTask(
             query = query,
             limit = limit,
-            zooService = zooService,
-            db = db
+            db = db,
+            zooService = service
         ).asLiveData()
     }
 

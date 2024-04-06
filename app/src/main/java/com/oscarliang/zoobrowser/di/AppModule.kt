@@ -6,10 +6,12 @@ import com.oscarliang.zoobrowser.api.ZooService
 import com.oscarliang.zoobrowser.db.AnimalDao
 import com.oscarliang.zoobrowser.db.AreaDao
 import com.oscarliang.zoobrowser.db.ZooDatabase
+import com.oscarliang.zoobrowser.util.RateLimiter
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module(includes = [ViewModelModule::class])
@@ -44,6 +46,12 @@ class AppModule {
     @Provides
     fun provideAnimalDao(db: ZooDatabase): AnimalDao {
         return db.animalDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRateLimiter(): RateLimiter<String> {
+        return RateLimiter(10, TimeUnit.MINUTES)
     }
 
 }
