@@ -60,8 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:collapsedTitleTextColor="@color/white"
+                app:contentScrim="@color/toolbar"
                 app:expandedTitleTextColor="@color/white"
-                app:contentScrim="@color/gray_500"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:title="@{area.name}">
 
@@ -95,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shape_round_rect"
+            android:backgroundTint="@color/app_fg"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -144,10 +145,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_20"
+                    android:onClick="@{() -> linkListener.onOpenLink(area.url)}"
                     android:text="@string/open_in_browser"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_15"
-                    android:onClick="@{() -> linkListener.onOpenLink(area.url)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_info" />
 
@@ -164,11 +165,11 @@
                     layout="@layout/layout_loading_state"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/layout_loading_state_height"
+                    app:hasMore="@{hasMore}"
+                    app:isRunning="@{isRunning}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:isRunning="@{isRunning}"
-                    app:hasMore="@{hasMore}" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <include
                     android:id="@+id/layout_error_state"
@@ -176,13 +177,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_20"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_memo"
-                    app:showHide="@{animals.data.size() == 0}"
                     app:listener="@{retryListener}"
-                    app:resource="@{animals}" />
+                    app:resource="@{animals}"
+                    app:showHide="@{animals.data.size() == 0}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
