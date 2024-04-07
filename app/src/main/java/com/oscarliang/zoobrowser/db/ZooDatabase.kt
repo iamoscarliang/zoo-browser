@@ -8,7 +8,8 @@ import com.oscarliang.zoobrowser.model.Area
 
 @Database(
     entities = [Area::class, Animal::class, AnimalSearchResult::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class ZooDatabase : RoomDatabase() {
 
