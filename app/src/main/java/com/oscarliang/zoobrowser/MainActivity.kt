@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), Injectable, HasAndroidInjector {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNav?.setupWithNavController(navController)
+        binding.navView?.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.toolbar.isVisible =
                 destination.id != R.id.areaFragment && destination.id != R.id.animalFragment
