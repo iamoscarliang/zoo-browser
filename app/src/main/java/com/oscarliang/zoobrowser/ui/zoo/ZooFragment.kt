@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.oscarliang.zoobrowser.R
-import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentZooBinding
 import com.oscarliang.zoobrowser.di.Injectable
 import com.oscarliang.zoobrowser.ui.common.AreaListAdapter
@@ -26,11 +24,10 @@ class ZooFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentZooBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    private var adapter by autoCleared<AreaListAdapter>()
     private val viewModel: ZooViewModel by viewModels {
         viewModelFactory
     }
-    private var adapter by autoCleared<AreaListAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +47,6 @@ class ZooFragment : Fragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
         viewModel.load()
         val rvAdapter = AreaListAdapter(
-            dataBindingComponent = dataBindingComponent,
             itemClickListener = {
                 findNavController().navigate(
                     ZooFragmentDirections.actionZooFragmentToAreaFragment(

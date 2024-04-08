@@ -5,13 +5,13 @@ import com.oscarliang.zoobrowser.model.Animal
 import com.oscarliang.zoobrowser.model.Area
 
 data class AnimalResponse(
-    @field:SerializedName("result")
+    @SerializedName("result")
     val result: Result
 ) {
     data class Result(
-        @field:SerializedName("count")
+        @SerializedName("count")
         val count: Int,
-        @field:SerializedName("results")
+        @SerializedName("results")
         val results: List<Animal>
     )
 }

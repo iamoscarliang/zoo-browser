@@ -10,7 +10,6 @@ import com.oscarliang.zoobrowser.databinding.LayoutAreaItemBinding
 import com.oscarliang.zoobrowser.model.Area
 
 class AreaListAdapter(
-    private val dataBindingComponent: DataBindingComponent,
     private val itemClickListener: ((Area) -> Unit)?
 ) : DataBoundListAdapter<Area, LayoutAreaItemBinding>(
     object : DiffUtil.ItemCallback<Area>() {
@@ -29,8 +28,7 @@ class AreaListAdapter(
             LayoutInflater.from(parent.context),
             R.layout.layout_area_item,
             parent,
-            false,
-            dataBindingComponent
+            false
         )
         binding.root.setOnClickListener {
             binding.area?.let {

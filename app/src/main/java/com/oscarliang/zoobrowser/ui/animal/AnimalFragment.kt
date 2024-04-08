@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.navArgs
 import com.oscarliang.zoobrowser.R
-import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentAnimalBinding
 import com.oscarliang.zoobrowser.di.Injectable
 import com.oscarliang.zoobrowser.model.Animal
@@ -27,9 +25,8 @@ class AnimalFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentAnimalBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
 
-    private val viewModel: AnimalViewModel by viewModels() {
+    private val viewModel: AnimalViewModel by viewModels {
         viewModelFactory
     }
     private val params by navArgs<AnimalFragmentArgs>()
@@ -42,8 +39,7 @@ class AnimalFragment : Fragment(), Injectable {
             inflater,
             R.layout.fragment_animal,
             container,
-            false,
-            dataBindingComponent
+            false
         )
         binding = dataBinding
         return dataBinding.root

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
-import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,7 +15,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.oscarliang.zoobrowser.R
-import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentAreaBinding
 import com.oscarliang.zoobrowser.di.Injectable
 import com.oscarliang.zoobrowser.ui.common.AnimalListAdapter
@@ -31,11 +29,10 @@ class AreaFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentAreaBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    private var adapter by autoCleared<AnimalListAdapter>()
     private val viewModel: AreaViewModel by viewModels {
         viewModelFactory
     }
-    private var adapter by autoCleared<AnimalListAdapter>()
     private val params by navArgs<AreaFragmentArgs>()
 
     override fun onCreateView(
@@ -46,8 +43,7 @@ class AreaFragment : Fragment(), Injectable {
             inflater,
             R.layout.fragment_area,
             container,
-            false,
-            dataBindingComponent
+            false
         )
         binding = dataBinding
         return dataBinding.root
@@ -60,7 +56,6 @@ class AreaFragment : Fragment(), Injectable {
         }
 
         val rvAdapter = AnimalListAdapter(
-            dataBindingComponent = dataBindingComponent,
             itemClickListener = {
                 findNavController().navigate(
                     AreaFragmentDirections.actionAreaFragmentToAnimalFragment(it.id)

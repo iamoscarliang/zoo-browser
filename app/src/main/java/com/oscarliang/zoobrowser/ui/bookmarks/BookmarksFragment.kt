@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.oscarliang.zoobrowser.R
-import com.oscarliang.zoobrowser.binding.FragmentDataBindingComponent
 import com.oscarliang.zoobrowser.databinding.FragmentBookmarksBinding
 import com.oscarliang.zoobrowser.di.Injectable
 import com.oscarliang.zoobrowser.ui.common.AnimalListAdapter
@@ -25,11 +23,10 @@ class BookmarksFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     var binding by autoCleared<FragmentBookmarksBinding>()
-    var dataBindingComponent: DataBindingComponent = FragmentDataBindingComponent(this)
+    private var adapter by autoCleared<AnimalListAdapter>()
     private val viewModel: BookmarksViewModel by viewModels {
         viewModelFactory
     }
-    private var adapter by autoCleared<AnimalListAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +45,6 @@ class BookmarksFragment : Fragment(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val rvAdapter = AnimalListAdapter(
-            dataBindingComponent = dataBindingComponent,
             itemClickListener = {
                 findNavController().navigate(
                     BookmarksFragmentDirections.actionBookmarksFragmentToAnimalFragment(

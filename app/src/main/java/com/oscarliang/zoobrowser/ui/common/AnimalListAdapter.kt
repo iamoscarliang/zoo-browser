@@ -10,7 +10,6 @@ import com.oscarliang.zoobrowser.databinding.LayoutAnimalItemBinding
 import com.oscarliang.zoobrowser.model.Animal
 
 class AnimalListAdapter(
-    private val dataBindingComponent: DataBindingComponent,
     private val itemClickListener: ((Animal) -> Unit)?,
     private val bookmarkClickListener: ((Animal) -> Unit)?
 ) : DataBoundListAdapter<Animal, LayoutAnimalItemBinding>(
@@ -30,8 +29,7 @@ class AnimalListAdapter(
             LayoutInflater.from(parent.context),
             R.layout.layout_animal_item,
             parent,
-            false,
-            dataBindingComponent
+            false
         )
         binding.root.setOnClickListener {
             binding.animal?.let {
