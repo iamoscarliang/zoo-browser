@@ -30,18 +30,25 @@ class FetchNextSearchPageTask(
                 limit = limit,
                 offset = currentCount
             )
-            val fetchedData = response.result.results
+            val animals = response.result.results
+            val bookmarks = db.animalDao().findBookmarks()
+            animals.forEach { newData ->
+                // We prevent overriding bookmark field
+                newData.bookmark = bookmarks.any { currentData ->
+                    currentData.id == newData.id
+                }
+            }
 
             // We merge all new search result into current result list
-            val ids = arrayListOf<Int>()
-            ids.addAll(current.animalIds)
-            ids.addAll(fetchedData.map { it.id })
+            val animalIds = mutableListOf<Int>()
+            animalIds.addAll(current.animalIds)
+            animalIds.addAll(animals.map { it.id })
             val merged = AnimalSearchResult(
                 query = query,
                 count = response.result.count,
-                animalIds = ids
+                animalIds = animalIds
             )
-            db.animalDao().insertAnimals(fetchedData)
+            db.animalDao().insertAnimals(animals)
             db.animalDao().insertAnimalSearchResults(merged)
             emit(Resource.success(true))
         } catch (e: Exception) {
