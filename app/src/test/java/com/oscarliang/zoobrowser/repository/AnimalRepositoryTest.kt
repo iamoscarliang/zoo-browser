@@ -88,7 +88,7 @@ class AnimalRepositoryTest {
         whenever(dao.getOrdered(ids)).thenReturn(dbData)
         val animals = TestUtil.createAnimals(2, "foo", "bar")
         whenever(dao.findAnimals("foo")).thenReturn(animals)
-        whenever(dao.findBookmarks()).thenReturn(animals)
+        whenever(dao.findBookmarks()).thenReturn(listOf())
         val response = AnimalResponse(AnimalResponse.Result(2, animals))
         whenever(service.searchAnimals("foo", 10)).thenReturn(response)
 
@@ -116,7 +116,7 @@ class AnimalRepositoryTest {
         whenever(dao.getOrdered(ids)).thenReturn(dbData)
         val animals = TestUtil.createAnimals(2, "foo", "bar")
         whenever(dao.findAnimals("foo")).thenReturn(animals)
-        whenever(dao.findBookmarks()).thenReturn(animals)
+        whenever(dao.findBookmarks()).thenReturn(listOf())
         whenever(service.searchAnimals("foo", 10)).thenAnswer { throw Exception("idk") }
 
         val observer = mock<Observer<Resource<List<Animal>>>>()
@@ -157,6 +157,7 @@ class AnimalRepositoryTest {
         val searchResult = AnimalSearchResult("foo", 10, ids)
         whenever(dao.findAnimalSearchResult("foo")).thenReturn(searchResult)
         val animals = TestUtil.createAnimals(2, "foo", "bar")
+        whenever(dao.findBookmarks()).thenReturn(listOf())
         val response = AnimalResponse(AnimalResponse.Result(2, animals))
         whenever(service.searchAnimals("foo", 10, 2)).thenReturn(response)
 
